@@ -1,0 +1,40 @@
+**Basic Commands:**\n 
+!add [#] => creates/changes temporary initiative value with your display name\n
+!add [name] [#] => creates/changes temporary initiative value with given name\n
+!view => view sorted initiative order\n
+!help all => shows all variants of the different commands
+
+**All Commands:**\n
+__!add__\n
+!add [#] => creates/changes temporary initiative value with your display name\n
+!add init [#] => creates/changes temporary initiative value with your display name\n
+!add roll [#] => creates/changes temporary roll value with your display name\n
+!add [name] [#] => creates/changes temporary initiative value with given name\n
+!add init [name] [#] => creates/changes temporary initiative value with given name\n
+!add roll [name] [#] => creates/changes temporary roll value with given name\n
+\n
+__!change__\n
+Same as !add except it safeguards from creating unwanted characters in the list
+\n
+__!view__\n
+!view => view sorted initiative order\n
+!view init => view sorted initiative order\n
+!view roll=> view sorted roll order\n
+!view all => view unsorted character data for testing\n
+\n
+__!clear__\n
+!clear => reset initiative and roll values and removes temporary characters\n
+!clear init => reset initiative values of all characters\n
+!clear roll=> reset roll values of all characters\n
+!clear all => remove all characters from the list\n
+\n
+__!create__\n
+!create => creates a permanent character with your display name
+!create [name] => creates a permament character with given name
+\n
+__!delete__\n
+!delete => deletes the character with your display name
+!delete [name] => deletes the character with given name
+__!help__\n
+!help => shows basic commands
+!help all => shows all variants of the different commands
