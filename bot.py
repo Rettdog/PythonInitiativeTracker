@@ -8,9 +8,11 @@ f = open('commands.json')
 commands = json.load(f)
 f.close()
 
-triggerChar = '!'
-for key, value in commands.items():
-    commands[key] = '!'+commands[key]
+# triggerChar = '!'
+# for key, value in commands.items():
+#     newCommands = []
+#     for command in value:
+#         commands[key] = newCommands.append('!'+command)
 
 channels = [1018330635829530694]
 emojis = {'plus': '\u2795', 'person': '👤', 'thumbsup': '👍',

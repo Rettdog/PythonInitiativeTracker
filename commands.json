@@ -1,9 +1,9 @@
 {
-    "add":["add", "ad", "Add", "ADD", "a"],
-    "change":["change", "Change", "CHANGE"],
-    "view":["view", "View", "VIEW", "v"],
-    "delete":["delete", "Delete", "DELETE", "del"],
-    "clear":["clear", "Clear", "CLEAR", "clr"],
-    "help":["help", "Help", "HELP", "hlp", "h"],
-    "create":["create", "Create", "CREATE", "creat"]
+    "add":["!add", "!ad", "!Add", "!ADD", "!a"],
+    "change":["!change", "!Change", "!CHANGE"],
+    "view":["!view", "!View", "!VIEW", "!v"],
+    "delete":["!delete", "!Delete", "!DELETE", "!del"],
+    "clear":["!clear", "!Clear", "!CLEAR", "!clr"],
+    "help":["!help", "!Help", "!HELP", "!hlp", "!h"],
+    "create":["!create", "!Create", "!CREATE", "!creat"]
 }
