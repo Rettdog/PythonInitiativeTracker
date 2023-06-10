@@ -39,6 +39,7 @@ characters = {}
 class MyClient(discord.Client):
     async def on_ready(self):
         print(f'Logged on as {self.user}!')
+        
 
     async def on_message(self, message):
         channel = message.channel
@@ -46,6 +47,10 @@ class MyClient(discord.Client):
             return
         print(
             f'Message from {message.author} in {message.channel.name} ({message.channel.id}): {message.content}')
+        
+        if message.author.display_name in characters.keys() and characters[message.author.display_name] == "":
+            characters[message.author.display_name] = message.author.display_name
+            await message.add_reaction(emojis['person'])
 
         # check for commands
         segments = message.content.split()
@@ -313,7 +318,7 @@ class MyClient(discord.Client):
 
             #[!help all]
             elif len(segments) == 2:
-                helpMessage = '**All Commands:**\n__!add__\n!add [#] => creates/changes temporary initiative value with your display name\n!add init [#] => creates/changes temporary initiative value with your display name\n!add roll [#] => creates/changes temporary roll value with your display name\n!add [name] [#] => creates/changes temporary initiative value with given name\n!add init [name] [#] => creates/changes temporary initiative value with given name\n!add roll [name] [#] => creates/changes temporary roll value with given name\n\n__!change__\nSame as !add except it safeguards from creating unwanted characters in the list\n\n__!view__\n!view => view sorted initiative order\n!view init => view sorted initiative order\n!view roll=> view sorted roll order\n!view all => view unsorted character data for testing\n\n__!clear__\n!clear => reset initiative and roll values and removes temporary characters\n!clear init => reset initiative values of all characters\n!clear roll=> reset roll values of all characters\n!clear all => remove all characters from the list\n\n__!create__\n!create => creates a permanent character with your display name\n!create [name] => creates a permament character with given name\n\n__!delete__\n!delete => deletes the character with your display name\n!delete [name] => deletes the character with given name\n\n__!help__\n!help => shows basic commands\n!help all => shows all variants of the different commands'
+                helpMessage = '**All Commands:**\n__!add__\n!add [#] => creates/changes temporary initiative value with your display name\n!add init [#] => creates/changes temporary initiative value with your display name\n!add roll [#] => creates/changes temporary roll value with your display name\n!add [name] [#] => creates/changes temporary initiative value with given name\n!add init [name] [#] => creates/changes temporary initiative value with given name\n!add roll [name] [#] => creates/changes temporary roll value with given name\n\n__!change__\nSame as !add except it safeguards from creating unwanted characters in the list\n\n__!view__\n!view => view sorted initiative order\n!view init => view sorted initiative order\n!view roll=> view sorted roll order\n!view all => view unsorted character data for testing\n\n__!clear__\n!clear => reset initiative and roll values and removes temporary characters\n!clear init => reset initiative values of all characters\n!clear roll=> reset roll values of all characters\n!clear all => remove all characters from the list\n\n__!create__\n!create => creates a permanent character with your display name\n!create [name] => creates a permament character with given name\n\n__!delete__\n!delete => deletes the character with your display name\n!delete [name] => deletes the character with given name\n\n__!help__\n!help => shows basic commands\n!help all => shows all variants of the different commands \n\n__!save__\n!save => saves current characters in text file for future use\n\n__!load__\n!load => clears existing character and loads saved characters for quick access'
             else:
                 helpMessage = 'Sorry. Can\'t help you right now. There is an error.'
 
@@ -333,8 +338,26 @@ class MyClient(discord.Client):
                 await message.add_reaction(emojis['person'])
             else:
                 await message.add_reaction(emojis['thumbsdown'])
+        # [!save]
+        elif segments[0] in commands['save']:
+            with open('players.txt', 'w') as f:
+                f.flush()
+                f.writelines(characters.keys)
+
+        # [!load]
+        elif segments[0] in commands['load']:
+            with open('players.txt', 'r') as f:
+                names = f.readlines()
+            characters = {}
+            for name in names:
+                characters[name] = CharacterData('', True)
+
+        
         else:
             await message.add_reaction(emojis['thumbsdown'])
+
+        
+        
 
 
 intents = discord.Intents.default()
