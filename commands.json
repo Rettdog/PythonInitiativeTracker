@@ -1,11 +1,11 @@
 {
     "add":["!add", "!ad", "!Add", "!ADD", "!a"],
-    "change":["!change", "!Change", "!CHANGE"],
-    "view":["!view", "!View", "!VIEW", "!v"],
-    "delete":["!delete", "!Delete", "!DELETE", "!del"],
-    "clear":["!clear", "!Clear", "!CLEAR", "!clr"],
-    "help":["!help", "!Help", "!HELP", "!hlp", "!h"],
-    "create":["!create", "!Create", "!CREATE", "!creat"],
-    "save":["!save", "!Save", "!SAVE"],
-    "load":["!load", "!Load", "!LOAD"]
+    "change":["!change", "!Change", "!CHANGE", "!ch"],
+    "view":["!view", "!View", "!VIEW", "!v", "!veiw"],
+    "delete":["!delete", "!Delete", "!DELETE", "!del", "!d"],
+    "clear":["!clear", "!Clear", "!CLEAR", "!clr", "!cl"],
+    "help":["!help", "!Help", "!HELP", "!hlp", "!h", "halp"],
+    "create":["!create", "!Create", "!CREATE", "!creat", "!cr", "!new"],
+    "save":["!save", "!Save", "!SAVE", "!s", "!saev"],
+    "load":["!load", "!Load", "!LOAD", "!l", "!laod"]
 }

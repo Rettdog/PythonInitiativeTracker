@@ -38,6 +38,7 @@ characters = {}
 
 class MyClient(discord.Client):
     async def on_ready(self):
+        self.characters = {}
         print(f'Logged on as {self.user}!')
         
 
@@ -47,129 +48,133 @@ class MyClient(discord.Client):
             return
         print(
             f'Message from {message.author} in {message.channel.name} ({message.channel.id}): {message.content}')
-        
-        if message.author.display_name in characters.keys() and characters[message.author.display_name] == "":
-            characters[message.author.display_name] = message.author.display_name
+
+        if message.author.display_name in self.characters.keys() and self.characters[message.author.display_name] == "":
+            self.characters[message.author.display_name] = message.author.display_name
             await message.add_reaction(emojis['person'])
 
         # check for commands
         segments = message.content.split()
-        print(f'segments: {segments}')
-        print(f'displayname: {message.author.display_name}')
+        # print(f'segments: {segments}')
+        # print(f'displayname: {message.author.display_name}')
 
         # [!add, init/roll?, name?, value]
         if segments[0] in commands['add']:
 
             # [!add, value](assumes init)
             if len(segments) == 2:
-                if message.author.display_name in characters.keys():
-                    if characters[message.author.display_name].init == -99:
-                        characters[message.author.display_name].init = int(
+                if message.author.display_name in self.characters.keys():
+                    if self.characters[message.author.display_name].init == -99:
+                        self.characters[message.author.display_name].init = int(
                             segments[1])
                         await message.add_reaction(emojis['plus'])
                     else:
-                        characters[message.author.display_name].init = int(
+                        self.characters[message.author.display_name].init = int(
                             segments[1])
                         await message.add_reaction(emojis['cycle'])
                 else:
-                    characters[message.author.display_name] = CharacterData(
+                    self.characters[message.author.display_name] = CharacterData(
                         message.author, False, init=int(segments[1]))
                     await message.add_reaction(emojis['person'])
 
             # [!add, init/roll, value] or [!add, name, value](assumes init)
             elif len(segments) == 3:
-                if segments[1] in characters.keys():
-                    if characters[segments[1]].init == -99:
-                        characters[segments[1]].init = int(segments[2])
+                if segments[1] in self.characters.keys():
+                    if self.characters[segments[1]].init == -99:
+                        self.characters[segments[1]].init = int(segments[2])
                         await message.add_reaction(emojis['plus'])
                     else:
-                        characters[segments[1]].init = int(segments[2])
+                        self.characters[segments[1]].init = int(segments[2])
                         await message.add_reaction(emojis['cycle'])
                 elif segments[1] == 'init':
-                    if message.author.display_name in characters.keys():
-                        if characters[message.author.display_name].init == -99:
-                            characters[message.author.display_name].init = int(
+                    if message.author.display_name in self.characters.keys():
+                        if self.characters[message.author.display_name].init == -99:
+                            self.characters[message.author.display_name].init = int(
                                 segments[2])
                             await message.add_reaction(emojis['plus'])
                         else:
-                            characters[message.author.display_name].init = int(
+                            self.characters[message.author.display_name].init = int(
                                 segments[2])
                             await message.add_reaction(emojis['cycle'])
                     else:
+                        self.characters[message.author.display_name] = CharacterData(
+                            message.author, False, init=int(segments[2]))
                         await message.add_reaction(emojis['thumbsdown'])
                 elif segments[1] == 'roll':
-                    if message.author.display_name in characters.keys():
-                        if characters[message.author.display_name].roll == -99:
-                            characters[message.author.display_name].roll = int(
+                    if message.author.display_name in self.characters.keys():
+                        if self.characters[message.author.display_name].roll == -99:
+                            self.characters[message.author.display_name].roll = int(
                                 segments[2])
                             await message.add_reaction(emojis['plus'])
                         else:
-                            characters[message.author.display_name].roll = int(
+                            self.characters[message.author.display_name].roll = int(
                                 segments[2])
                             await message.add_reaction(emojis['cycle'])
                     else:
+                        self.characters[message.author.display_name] = CharacterData(
+                            message.author, False, roll=int(segments[2]))
                         await message.add_reaction(emojis['thumbsdown'])
                 else:
-                    characters[segments[1]] = CharacterData(
+                    self.characters[segments[1]] = CharacterData(
                         message.author, False, init=int(segments[2]))
                     await message.add_reaction(emojis['person'])
 
             # [!add, init/roll, name, value]
             elif len(segments) == 4:
                 if segments[1] == 'init':
-                    if segments[2] in characters.keys():
-                        if characters[segments[2]].init == -99:
-                            characters[segments[2]].init = int(
+                    if segments[2] in self.characters.keys():
+                        if self.characters[segments[2]].init == -99:
+                            self.characters[segments[2]].init = int(
                                 segments[3])
                             await message.add_reaction(emojis['plus'])
                         else:
-                            characters[segments[2]].init = int(
+                            self.characters[segments[2]].init = int(
                                 segments[3])
                             await message.add_reaction(emojis['cycle'])
                     else:
-                        characters[segments[2]] = CharacterData(
+                        self.characters[segments[2]] = CharacterData(
                             message.author, False, init=int(segments[3]))
                         await message.add_reaction(emojis['person'])
                 if segments[1] == 'roll':
-                    if segments[2] in characters.keys():
-                        if characters[segments[2]].roll == -99:
-                            characters[segments[2]].roll = int(
+                    if segments[2] in self.characters.keys():
+                        if self.characters[segments[2]].roll == -99:
+                            self.characters[segments[2]].roll = int(
                                 segments[3])
                             await message.add_reaction(emojis['plus'])
                         else:
-                            characters[segments[2]].roll = int(
+                            self.characters[segments[2]].roll = int(
                                 segments[3])
                             await message.add_reaction(emojis['cycle'])
                     else:
-                        characters[segments[2]] = CharacterData(
+                        self.characters[segments[2]] = CharacterData(
                             message.author, False, roll=int(segments[3]))
                         await message.add_reaction(emojis['person'])
 
         # [!change, init/roll?, name?, value]
         elif segments[0] in commands['change']:
-            # same as add but won't add new characters
+            # same as add but won't add new self.characters
 
             if len(segments) == 2:
-                if message.author.display_name in characters.keys():
-                    characters[message.author.display_name].init = int(
+                if message.author.display_name in self.characters.keys():
+                    self.characters[message.author.display_name].init = int(
                         segments[1])
                     await message.add_reaction(emojis['cycle'])
                 else:
                     await message.add_reaction(emojis['thumbsdown'])
             elif len(segments) == 3:
-                if segments[1] in characters.keys():
-                    characters[segments[1]].init = int(segments[2])
+                if segments[1] in self.characters.keys():
+                    self.characters[segments[1]].init = int(segments[2])
                     await message.add_reaction(emojis['cycle'])
                 elif segments[1] == 'init':
-                    if message.author.display_name in characters.keys():
-                        characters[message.author.display_name].init = int(
+                    if message.author.display_name in self.characters.keys():
+                        self.characters[message.author.display_name].init = int(
                             segments[2])
                         await message.add_reaction(emojis['cycle'])
                     else:
                         await message.add_reaction(emojis['thumbsdown'])
                 elif segments[1] == 'roll':
-                    if message.author.display_name in characters.keys():
-                        characters[message.author.display_name].roll = int(
+                    if message.author.display_name in self.characters.keys():
+                        self.characters[message.author.display_name].roll = int(
                             segments[2])
                         await message.add_reaction(emojis['cycle'])
                     else:
@@ -178,15 +183,15 @@ class MyClient(discord.Client):
                     await message.add_reaction(emojis['thumbsdown'])
             elif len(segments) == 4:
                 if segments[1] == 'init':
-                    if segments[2] in characters.keys():
-                        characters[segments[2]].init = int(
+                    if segments[2] in self.characters.keys():
+                        self.characters[segments[2]].init = int(
                             segments[3])
                         await message.add_reaction(emojis['cycle'])
                     else:
                         await message.add_reaction(emojis['thumbsdown'])
                 if segments[1] == 'roll':
-                    if segments[2] in characters.keys():
-                        characters[segments[2]].roll = int(
+                    if segments[2] in self.characters.keys():
+                        self.characters[segments[2]].roll = int(
                             segments[3])
                         await message.add_reaction(emojis['cycle'])
                     else:
@@ -201,16 +206,16 @@ class MyClient(discord.Client):
             # [!view](assumes init)
             if len(segments) == 1:
                 initList = []
-                for key, value in characters.items():
+                for key, value in self.characters.items():
                     if not value.init in initList:
                         initList.append(value.init)
                 initList.sort(reverse=True)
                 output += '**Initiative Order**:\n'
                 for init in initList:
-                    for key, value in characters.items():
+                    for key, value in self.characters.items():
                         if init == -99:
                             if value.init == init:
-                                unenteredOutput += (f'{key} ')
+                                unenteredOutput += (f'{key}, ')
                         else:
                             if value.init == init:
                                 output = output + (f'{key}: {init}\n')
@@ -219,62 +224,63 @@ class MyClient(discord.Client):
             elif len(segments) == 2:
                 if segments[1] == 'init':
                     initList = []
-                    for key, value in characters.items():
+                    for key, value in self.characters.items():
                         if not value.init in initList:
                             initList.append(value.init)
                     initList.sort(reverse=True)
                     output += '**Initiative Order**:\n'
                     for init in initList:
-                        for key, value in characters.items():
+                        for key, value in self.characters.items():
                             if init == -99:
                                 if value.init == init:
-                                    unenteredOutput += (f'{key} ')
+                                    unenteredOutput += (f'{key}, ')
                             else:
                                 if value.init == init:
                                     output = output + (f'{key}: {init}\n')
                 elif segments[1] == 'roll':
                     rollList = []
-                    for key, value in characters.items():
+                    for key, value in self.characters.items():
                         if not value.roll in rollList:
                             rollList.append(value.roll)
                     rollList.sort(reverse=True)
                     output += "**Roll Order**:\n"
                     for roll in rollList:
-                        for key, value in characters.items():
+                        for key, value in self.characters.items():
                             if roll == -99:
                                 if value.roll == roll:
-                                    unenteredOutput += (f'{key} ')
+                                    unenteredOutput += (f'{key}, ')
                             else:
                                 if value.roll == roll:
                                     output = output + (f'{key}: {roll}\n')
                 elif segments[1] == 'all':
                     output += '**Characters**:\n'
-                for key, value in characters.items():
-                    if value.init == -99 and value.roll == -99:
-                        unenteredOutput += (
-                            f'{key}:\n - isCharacter:{value.isCharacter}\n - user:{value.user}\n\n')
-                    else:
-                        output += (f'{key}:\n - isCharacter:{value.isCharacter}\n - user:{value.user}\n - init:{value.init}\n - roll:{value.roll}\n')
+                    for key, value in self.characters.items():
+                        if value.init == -99 and value.roll == -99:
+                            unenteredOutput += (
+                                f'{key}:\n\tisCharacter:{value.isCharacter}\n\tuser:{value.user}\n')
+                        else:
+                            output += (
+                                f'{key}:\n\tisCharacter:{value.isCharacter}\n\tuser:{value.user}\n\tinit:{value.init}\n\troll:{value.roll}\n')
 
             if unenteredOutput == '\n**Pending**:\n':
                 unenteredOutput = ''
-            await channel.send(output+unenteredOutput)
+            await channel.send(output+unenteredOutput[:-1])
 
         # [!delete, name?]
         elif segments[0] in commands['delete']:
 
             # [!delete](assumes display_name)
             if len(segments) == 1:
-                if message.author.display_name in characters.keys():
-                    characters.pop(message.author.display_name)
+                if message.author.display_name in self.characters.keys():
+                    self.characters.pop(message.author.display_name)
                     await message.add_reaction(emojis['minus'])
                 else:
                     await message.add_reaction(emojis['thumbsdown'])
 
             # [!delete, name]
             elif len(segments) == 2:
-                if segments[1] in characters.keys():
-                    characters.pop(segments[1])
+                if segments[1] in self.characters.keys():
+                    self.characters.pop(segments[1])
                     await message.add_reaction(emojis['minus'])
                 else:
                     await message.add_reaction(emojis['thumbsdown'])
@@ -284,28 +290,28 @@ class MyClient(discord.Client):
         # [!clear, all/init/roll?]
         elif segments[0] in commands['clear']:  # not working
 
-            # [!clear](assumes non-characters)
+            # [!clear](assumes non-self.characters)
             if len(segments) == 1:
-                for key in list(characters.keys()):
-                    if characters[key].isCharacter:
-                        characters[key].init = -99
-                        characters[key].roll = -99
+                for key in list(self.characters.keys()):
+                    if self.characters[key].isCharacter:
+                        self.characters[key].init = -99
+                        self.characters[key].roll = -99
                     else:
-                        characters.pop(key)
+                        self.characters.pop(key)
                 await message.add_reaction(emojis['minus'])
 
             # [!clear, all/init/roll]
             elif len(segments) == 2:
                 if segments[1] == 'all':
-                    for key in list(characters.keys()):
-                        characters.pop(key)
+                    for key in list(self.characters.keys()):
+                        self.characters.pop(key)
                     await message.add_reaction(emojis['minus'])
                 elif segments[1] == 'init':
-                    for key, value in characters.items():
+                    for key, value in self.characters.items():
                         value.init = -99
                     await message.add_reaction(emojis['cycle'])
                 elif segments[1] == 'roll':
-                    for key, value in characters.items():
+                    for key, value in self.characters.items():
                         value.roll = -99
                     await message.add_reaction(emojis['cycle'])
 
@@ -314,11 +320,12 @@ class MyClient(discord.Client):
 
             #[!help]
             if len(segments) == 1:
-                helpMessage = '**Basic Commands:**\n !add [#] => creates/changes temporary initiative value with your display name\n!add [name] [#] => creates/changes temporary initiative value with given name\n!view => view sorted initiative order\n!help all => shows all variants of the different commands'
-
+                with open('basicinstructions.txt', 'r') as f:
+                    helpMessage = ''.join(f.readlines())
             #[!help all]
             elif len(segments) == 2:
-                helpMessage = '**All Commands:**\n__!add__\n!add [#] => creates/changes temporary initiative value with your display name\n!add init [#] => creates/changes temporary initiative value with your display name\n!add roll [#] => creates/changes temporary roll value with your display name\n!add [name] [#] => creates/changes temporary initiative value with given name\n!add init [name] [#] => creates/changes temporary initiative value with given name\n!add roll [name] [#] => creates/changes temporary roll value with given name\n\n__!change__\nSame as !add except it safeguards from creating unwanted characters in the list\n\n__!view__\n!view => view sorted initiative order\n!view init => view sorted initiative order\n!view roll=> view sorted roll order\n!view all => view unsorted character data for testing\n\n__!clear__\n!clear => reset initiative and roll values and removes temporary characters\n!clear init => reset initiative values of all characters\n!clear roll=> reset roll values of all characters\n!clear all => remove all characters from the list\n\n__!create__\n!create => creates a permanent character with your display name\n!create [name] => creates a permament character with given name\n\n__!delete__\n!delete => deletes the character with your display name\n!delete [name] => deletes the character with given name\n\n__!help__\n!help => shows basic commands\n!help all => shows all variants of the different commands \n\n__!save__\n!save => saves current characters in text file for future use\n\n__!load__\n!load => clears existing character and loads saved characters for quick access'
+                with open('instructions.txt', 'r') as f:
+                    helpMessage = ''.join(f.readlines())
             else:
                 helpMessage = 'Sorry. Can\'t help you right now. There is an error.'
 
@@ -329,36 +336,74 @@ class MyClient(discord.Client):
 
             # [!create](assumes display_name)
             if len(segments) == 1:
-                characters[message.author.display_name] = CharacterData(
+                self.characters[message.author.display_name] = CharacterData(
                     message.author, True)
                 await message.add_reaction(emojis['person'])
             # [!create, name]
-            elif len(segments) == 2:
-                characters[segments[1]] = CharacterData(message.author, True)
+            elif len(segments) > 1:
+                self.characters[" ".join(segments[1:])] = CharacterData(
+                    message.author, True)
                 await message.add_reaction(emojis['person'])
             else:
                 await message.add_reaction(emojis['thumbsdown'])
         # [!save]
         elif segments[0] in commands['save']:
-            with open('players.txt', 'w') as f:
-                f.flush()
-                f.writelines(characters.keys)
+
+            try:
+                fileName = ''
+
+                # [!save]
+                if len(segments) == 1:
+                    fileName = 'players'
+                
+                # [!save, fileName](fileName may have spaces)
+                if len(segments) > 1:
+                    fileName = " ".join(segments[1:])
+
+                fileName = fileName + '.txt'
+
+                with open(fileName, 'w') as f:
+                    f.flush()
+                    f.write('\n'.join(self.characters.keys()))
+                await message.add_reaction(emojis["thumbsup"])
+            except:
+                await message.add_reaction(emojis["thumbsdown"])
+        
 
         # [!load]
         elif segments[0] in commands['load']:
-            with open('players.txt', 'r') as f:
-                names = f.readlines()
-            characters = {}
-            for name in names:
-                characters[name] = CharacterData('', True)
 
-        
+            names = []
+            fileMessage = "Characters added:" + " (use '!clear all' to remove)\n"
+
+            try:
+                # [!load]
+                if len(segments) == 1:
+                    with open('players.txt', 'r') as f:
+                        names = f.readlines()
+
+                # [!load, file]
+                if len(segments) > 1:
+                    with open(" ".join(segments[1:])+'.txt', 'r') as f:
+                        names = f.readlines()
+
+                self.characters = {}
+                for name in names:
+                    if name[-1] == '\n':
+                        name = name[:-1]
+                    if name == "":
+                        continue
+
+                    self.characters[name] = CharacterData('file', True)
+                
+                await message.add_reaction(emojis["thumbsup"])
+                await channel.send(fileMessage + ', '.join(self.characters.keys()))
+            except Exception:
+                self.characters = {}
+                await message.add_reaction(emojis["thumbsdown"])
+
         else:
             await message.add_reaction(emojis['thumbsdown'])
-
-        
-        
-
 
 intents = discord.Intents.default()
 intents.message_content = True

@@ -1,0 +1,8 @@
+**Basic Commands:**
+!add [#] => creates/changes temporary initiative value with your display name
+!add [name] [#] => creates/changes temporary initiative value with given name
+!view => view sorted initiative order
+!save => saves the current characters in the default file
+!load => loads the characters stored in the default file
+!delete [name] => deletes the given character
+!help all => shows all variants of the different commands
