@@ -14,7 +14,7 @@ f.close()
 #     for command in value:
 #         commands[key] = newCommands.append('!'+command)
 
-channels = [1018330635829530694]
+channels = [1018330635829530694, 1134611885694656534]
 emojis = {'plus': '\u2795', 'person': '👤', 'thumbsup': '👍',
           'thumbsdown': '👎', 'cycle': '\U0001f504', 'minus': '\u2796'}
 
@@ -57,6 +57,7 @@ class MyClient(discord.Client):
         segments = message.content.split()
         # print(f'segments: {segments}')
         # print(f'displayname: {message.author.display_name}')
+        segments = [segment.replace("_", " ") for segment in segments]
 
         # [!add, init/roll?, name?, value]
         if segments[0] in commands['add']:

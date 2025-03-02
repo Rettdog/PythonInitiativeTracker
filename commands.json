@@ -2,9 +2,9 @@
     "add":["!add", "!ad", "!Add", "!ADD", "!a"],
     "change":["!change", "!Change", "!CHANGE", "!ch"],
     "view":["!view", "!View", "!VIEW", "!v", "!veiw"],
-    "delete":["!delete", "!Delete", "!DELETE", "!del", "!d"],
+    "delete":["!delete", "!Delete", "!DELETE", "!del", "!d", "!remove"],
     "clear":["!clear", "!Clear", "!CLEAR", "!clr", "!cl"],
-    "help":["!help", "!Help", "!HELP", "!hlp", "!h", "halp"],
+    "help":["!help", "!Help", "!HELP", "!hlp", "!h", "!halp"],
     "create":["!create", "!Create", "!CREATE", "!creat", "!cr", "!new"],
     "save":["!save", "!Save", "!SAVE", "!s", "!saev"],
     "load":["!load", "!Load", "!LOAD", "!l", "!laod"]
